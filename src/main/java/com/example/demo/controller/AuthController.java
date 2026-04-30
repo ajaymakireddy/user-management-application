@@ -28,7 +28,7 @@ public class AuthController {
 	//	Login User
 	//  Logout User
 	//	getCurrentLoggedinUser
-	 
+	  
 	@Autowired
 	private AuthenticationService authenticationService;
 	
