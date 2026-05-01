@@ -28,7 +28,7 @@ public class AuthController {
 	//	Login User
 	//  Logout User
 	//	getCurrentLoggedinUser
-	  
+	     
 	@Autowired
 	private AuthenticationService authenticationService;
 	
@@ -67,6 +67,6 @@ public class AuthController {
 		}
 		String name = authentication.getName();
 		
-		User user  = userRepository.findByUsername(name);
+		User user  = userRepository.findByUsername(name).orElseThrow(() -> new RuntimeException(""));
 	}
 }
