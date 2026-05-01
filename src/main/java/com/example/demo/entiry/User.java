@@ -1,7 +1,13 @@
 package com.example.demo.entiry;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -18,7 +24,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "users")
-public class User {
+public class User implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +48,14 @@ public class User {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedAt = LocalDateTime.now();
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return roles.stream()
+				    .map(SimpleGrantedAuthority::new)
+				    .collect(Collectors.toList());
 	}
 	
 }

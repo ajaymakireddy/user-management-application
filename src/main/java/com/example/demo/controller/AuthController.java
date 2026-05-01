@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +62,7 @@ public class AuthController {
 		return authenticationService.logout();
 	}
 	
+	@GetMapping("/getcurrentuser")
 	public ResponseEntity<?> getCurrentLoginUser(Authentication authentication) {
 		if(authentication == null ) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
@@ -68,5 +70,14 @@ public class AuthController {
 		String name = authentication.getName();
 		
 		User user  = userRepository.findByUsername(name).orElseThrow(() -> new RuntimeException(""));
+		return ResponseEntity.ok(convertToUserDTO(user));
+	}
+	
+	public UserDTO convertToUserDTO(User user ) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setUsername(user.getUsername());
+		return userDTO;
 	}
 }
