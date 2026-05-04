@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entiry.User;
@@ -18,8 +19,10 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 	
+	@Value("${jwt.secretkey}")
 	private String secretkey;
 	
+	@Value("${jwt.expiration}")
 	private Long jwtexpiration ;
 	
 	// Method to extract the userId	
